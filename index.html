@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>bookshelf-mask by seegno</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">bookshelf-mask</h1>
+      <h2 class="project-tagline">Mask Bookshelf.js models with json-mask</h2>
+      <a href="https://github.com/seegno/bookshelf-mask" class="btn">View on GitHub</a>
+      <a href="https://github.com/seegno/bookshelf-mask/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/seegno/bookshelf-mask/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h2>
+<a id="overview" class="anchor" href="#overview" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Overview</h2>
+
+<p>This <a href="https://github.com/tgriesser/bookshelf">Bookshelf.js</a> plugin enables you to define masks on your models and serialize to JSON based on its fields using the <a href="https://github.com/nemtsov/json-mask">json-mask</a> API.</p>
+
+<h2>
+<a id="status" class="anchor" href="#status" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Status</h2>
+
+<p><a href="https://npmjs.org/package/bookshelf-mask"><img src="https://img.shields.io/npm/v/bookshelf-mask.svg?style=flat-square" alt="npm version"></a> <a href="https://travis-ci.org/seegno/bookshelf-mask"><img src="https://img.shields.io/travis/seegno/bookshelf-mask/master.svg?style=flat-square" alt="build status"></a> <a href="https://coveralls.io/github/seegno/bookshelf-mask?branch=master"><img src="https://img.shields.io/coveralls/seegno/bookshelf-mask/master.svg?style=flat-square" alt="coverage status"></a></p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Install the package via <strong>npm</strong>:</p>
+
+<div class="highlight highlight-source-shell"><pre>$ npm install --save bookshelf-mask</pre></div>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Require and register the <strong>bookshelf-mask</strong> plugin:</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> bookshelf <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>bookshelf<span class="pl-pds">'</span></span>)(knex);
+<span class="pl-k">var</span> mask <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>bookshelf-mask<span class="pl-pds">'</span></span>);
+
+<span class="pl-smi">bookshelf</span>.<span class="pl-en">plugin</span>(mask);</pre></div>
+
+<p>Define masks on your models with <code>masks</code> prototype property:</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> Author <span class="pl-k">=</span> <span class="pl-smi">bookshelf</span>.<span class="pl-smi">Model</span>.<span class="pl-en">extend</span>({
+  masks<span class="pl-k">:</span> {
+    custom<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>id,name<span class="pl-pds">'</span></span>
+  },
+  posts<span class="pl-k">:</span> {
+    <span class="pl-k">return</span> <span class="pl-v">this</span>.<span class="pl-en">hasMany</span>(Post);
+  },
+  tableName<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Author<span class="pl-pds">'</span></span>
+});</pre></div>
+
+<p>Use the <code>mask</code> method to serialize the registered masks or pass the fields directly:</p>
+
+<div class="highlight highlight-source-js"><pre>Author
+  .<span class="pl-en">forge</span>({ name<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>foo<span class="pl-pds">'</span></span> })
+  .<span class="pl-en">fetch</span>({ withRelated<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>posts<span class="pl-pds">'</span></span> })
+  .<span class="pl-en">then</span>(<span class="pl-k">function</span>(<span class="pl-smi">model</span>) {
+    <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-smi">model</span>.<span class="pl-en">mask</span>(<span class="pl-s"><span class="pl-pds">'</span>custom<span class="pl-pds">'</span></span>));
+    <span class="pl-c">// =&gt; { id: 1, name: 'foo' }</span>
+    <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-smi">model</span>.<span class="pl-en">mask</span>(<span class="pl-s"><span class="pl-pds">'</span>name,posts(title,body)<span class="pl-pds">'</span></span>));
+    <span class="pl-c">// =&gt; { name: 'foo', posts: [{ title: 'biz', body: 'baz' }, { title: 'qux', body: 'qix' }]}</span>
+  });</pre></div>
+
+<p>The <code>mask</code> method can be applied to collections and the same options accepted in <code>toJSON</code> can also be provided.</p>
+
+<h2>
+<a id="contributing" class="anchor" href="#contributing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contributing</h2>
+
+<p>Contributions are welcome and greatly appreciated, so feel free to fork this repository and submit pull requests.</p>
+
+<h3>
+<a id="setting-up" class="anchor" href="#setting-up" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Setting up</h3>
+
+<ul>
+<li>Fork and clone the <strong>bookshelf-mask</strong> repository.</li>
+<li>Duplicate <em>test/knexfile.js.dist</em> and and update it to your needs.</li>
+<li>Make sure all the tests pass:</li>
+</ul>
+
+<div class="highlight highlight-source-shell"><pre>$ npm <span class="pl-c1">test</span></pre></div>
+
+<h3>
+<a id="linting" class="anchor" href="#linting" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Linting</h3>
+
+<p><strong>bookshelf-mask</strong> enforces linting using <a href="http://eslint.org/">ESLint</a> with the <a href="https://github.com/seegno/eslint-config-seegno">Seegno-flavored ESLint config</a>. We recommend you to install an <strong>eslint</strong> plugin in your editor of choice, although you can run the linter anytime with:</p>
+
+<div class="highlight highlight-source-shell"><pre>$ eslint src <span class="pl-c1">test</span></pre></div>
+
+<h3>
+<a id="pull-request" class="anchor" href="#pull-request" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Pull Request</h3>
+
+<p>Please follow these advices to simplify the pull request workflow:</p>
+
+<ul>
+<li>If you add or enhance functionality, an update of <em>README.md</em> usage section should be part of the PR.</li>
+<li>If your PR fixes a bug you should include tests that at least fail before your code changes and pass after.</li>
+<li>Keep your branch rebased and fix all conflicts before submitting.</li>
+<li>Make sure <strong>Travis</strong> build status is ok.</li>
+</ul>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h2>
+
+<p><a href="https://opensource.org/licenses/MIT">MIT</a></p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/seegno/bookshelf-mask">bookshelf-mask</a> is maintained by <a href="https://github.com/seegno">seegno</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
