@@ -39,6 +39,24 @@ var Author = bookshelf.Model.extend({
 });
 ```
 
+If you're using ES6 class syntax, define `masks` as static property:
+
+```js
+class Author extends bookshelf.Model {
+  get tableName() {
+    return 'Author';
+  }
+
+  posts() {
+    return this.hasMany(Post);
+  }
+
+  static masks = {
+    custom: 'id,name'
+  }
+}
+```
+
 Use the `mask` method to serialize the registered masks or pass the fields directly:
 
 ```js
