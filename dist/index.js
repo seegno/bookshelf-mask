@@ -17,13 +17,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = Bookshelf => {
   Bookshelf.Model = Bookshelf.Model.extend({
     mask: function mask(scope, options) {
-      return (0, _jsonMask2.default)(this.toJSON(options), this.masks && this.masks[scope] || scope);
+      return (0, _jsonMask2.default)(this.toJSON(options), this.constructor.masks && this.constructor.masks[scope] || scope);
     }
   });
 
   Bookshelf.Collection = Bookshelf.Collection.extend({
     mask: function mask(scope, options) {
-      scope = this.model.prototype.masks && this.model.prototype.masks[scope] || scope;
+      scope = this.model.masks && this.model.masks[scope] || scope;
 
       return this.toJSON(options).map(model => (0, _jsonMask2.default)(model, scope));
     }
