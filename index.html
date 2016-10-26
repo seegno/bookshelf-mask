@@ -46,16 +46,17 @@
 
 <span class="pl-smi">bookshelf</span>.<span class="pl-en">plugin</span>(mask);</pre></div>
 
-<p>Define masks on your models with <code>masks</code> prototype property:</p>
+<p>Define masks on your models with <code>masks</code> class property:</p>
 
 <div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> Author <span class="pl-k">=</span> <span class="pl-smi">bookshelf</span>.<span class="pl-smi">Model</span>.<span class="pl-en">extend</span>({
-  masks<span class="pl-k">:</span> {
-    custom<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>id,name<span class="pl-pds">'</span></span>
-  },
   posts<span class="pl-k">:</span> {
     <span class="pl-k">return</span> <span class="pl-v">this</span>.<span class="pl-en">hasMany</span>(Post);
   },
   tableName<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Author<span class="pl-pds">'</span></span>
+}, {
+  masks<span class="pl-k">:</span> {
+    custom<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>id,name<span class="pl-pds">'</span></span>
+  }
 });</pre></div>
 
 <p>If you're using ES6 class syntax, define <code>masks</code> as static property:</p>
