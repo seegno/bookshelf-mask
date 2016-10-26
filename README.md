@@ -25,17 +25,18 @@ var mask = require('bookshelf-mask');
 bookshelf.plugin(mask);
 ```
 
-Define masks on your models with `masks` prototype property:
+Define masks on your models with `masks` class property:
 
 ```js
 var Author = bookshelf.Model.extend({
-  masks: {
-    custom: 'id,name'
-  },
   posts: {
     return this.hasMany(Post);
   },
   tableName: 'Author'
+}, {
+  masks: {
+    custom: 'id,name'
+  }
 });
 ```
 

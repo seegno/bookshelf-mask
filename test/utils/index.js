@@ -45,10 +45,11 @@ export function dropTables(repository) {
 
 export function fixtures(repository) {
   const Post = repository.Model.extend({
+    tableName: 'Post'
+  }, {
     masks: {
       private: 'foo'
-    },
-    tableName: 'Post'
+    }
   });
 
   const Author = repository.Model.extend({
