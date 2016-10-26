@@ -1,7 +1,17 @@
 # Changelog
 
-## [1.0.0](https://github.com/seegno/bookshelf-mask/tree/1.0.0)
+## [2.0.0](https://github.com/seegno/bookshelf-mask/tree/2.0.0) (2016-10-26)
+[Full Changelog](https://github.com/seegno/bookshelf-mask/compare/1.0.0...2.0.0)
 
+**Merged pull requests:**
+
+- Add node version badge to README.md [\#6](https://github.com/seegno/bookshelf-mask/pull/6) ([ricardogama](https://github.com/ricardogama))
+- Add documentation for ES6 class syntax usage [\#5](https://github.com/seegno/bookshelf-mask/pull/5) ([ricardogama](https://github.com/ricardogama))
+- Add .npmignore [\#4](https://github.com/seegno/bookshelf-mask/pull/4) ([ricardogama](https://github.com/ricardogama))
+- Update test code against new eslint configuration [\#3](https://github.com/seegno/bookshelf-mask/pull/3) ([ricardogama](https://github.com/ricardogama))
+- Update dependencies versions [\#2](https://github.com/seegno/bookshelf-mask/pull/2) ([ricardogama](https://github.com/ricardogama))
+
+## [1.0.0](https://github.com/seegno/bookshelf-mask/tree/1.0.0) (2016-06-22)
 **Merged pull requests:**
 
 - Add initial code [\#1](https://github.com/seegno/bookshelf-mask/pull/1) ([ricardogama](https://github.com/ricardogama))
