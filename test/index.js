@@ -3,11 +3,11 @@
  * Module dependencies.
  */
 
+import { clearTables, dropTables, fixtures, recreateTables } from './utils';
 import bookshelf from 'bookshelf';
 import knex from 'knex';
 import knexfile from './knexfile';
 import mask from '../src';
-import { clearTables, dropTables, fixtures, recreateTables } from './utils';
 
 /**
  * Test `bookshelf-mask` plugin.
@@ -40,15 +40,15 @@ describe('bookshelf-mask', () => {
     });
 
     it('should mask with given registered scope', () => {
-      const model = Post.forge({ foo: 'bar', biz: 'baz' });
+      const model = Post.forge({ biz: 'baz', foo: 'bar' });
 
       model.mask('private').should.eql({ foo: 'bar' });
     });
 
     it('should mask with given fields', () => {
-      const model = Post.forge({ foo: 'bar', biz: 'baz', qux: 'qix' });
+      const model = Post.forge({ biz: 'baz', foo: 'bar', qux: 'qix' });
 
-      model.mask('foo,biz').should.eql({ foo: 'bar', biz: 'baz' });
+      model.mask('foo,biz').should.eql({ biz: 'baz', foo: 'bar' });
     });
 
     it('should omit unexistent fields', () => {
@@ -60,8 +60,8 @@ describe('bookshelf-mask', () => {
     it('should mask related models', async () => {
       const author = await Author.forge().save();
 
-      await Post.forge().save({ authorId: author.get('id'), title: 'biz', body: 'baz' });
-      await Post.forge().save({ authorId: author.get('id'), title: 'qux', body: 'qix' });
+      await Post.forge().save({ authorId: author.get('id'), body: 'baz', title: 'biz' });
+      await Post.forge().save({ authorId: author.get('id'), body: 'qix', title: 'qux' });
 
       const model = await Author.forge({ id: author.get('id') }).fetch({ withRelated: 'posts' });
 
@@ -117,12 +117,12 @@ describe('bookshelf-mask', () => {
 
     it('should mask with given fields', () => {
       const collection = PostCollection.forge([{
-        foo: 'bar', biz: 'baz', qux: 'qix'
+        biz: 'baz', foo: 'bar', qux: 'qix'
       }, {
-        foo: 'ber', biz: 'buz', qux: 'qax'
+        biz: 'buz', foo: 'ber', qux: 'qax'
       }]);
 
-      collection.mask('foo,biz').should.eql([{ foo: 'bar', biz: 'baz' }, { foo: 'ber', biz: 'buz' }]);
+      collection.mask('foo,biz').should.eql([{ biz: 'baz', foo: 'bar' }, { biz: 'buz', foo: 'ber' }]);
     });
 
     it('should omit unexistent fields', () => {
@@ -135,8 +135,8 @@ describe('bookshelf-mask', () => {
       const author1 = await Author.forge().save();
       const author2 = await Author.forge().save();
 
-      await Post.forge().save({ authorId: author1.get('id'), title: 'biz', body: 'baz' });
-      await Post.forge().save({ authorId: author2.get('id'), title: 'qux', body: 'qix' });
+      await Post.forge().save({ authorId: author1.get('id'), body: 'baz', title: 'biz' });
+      await Post.forge().save({ authorId: author2.get('id'), body: 'qix', title: 'qux' });
 
       const collection = await AuthorCollection.forge().fetch({ withRelated: 'posts' });
 
