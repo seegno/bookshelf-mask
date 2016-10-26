@@ -1,4 +1,9 @@
 {
-  "presets": ["es2015"],
-  "plugins": ["transform-runtime", "transform-async-to-generator"]
+  "env": {
+    "test": {
+      "plugins": ["istanbul"]
+    }
+  },
+  "plugins": ["add-module-exports"],
+  "presets": ["es2015-node", "stage-3"]
 }
