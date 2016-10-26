@@ -4,7 +4,7 @@ This [Bookshelf.js](https://github.com/tgriesser/bookshelf) plugin enables you t
 
 ## Status
 
-[![npm version][npm-image]][npm-url] [![build status][travis-image]][travis-url] [![coverage status][coveralls-image]][coveralls-url]
+[![npm version][npm-image]][npm-url] ![node version][node-image] [![build status][travis-image]][travis-url] [![coverage status][coveralls-image]][coveralls-url]
 
 ## Installation
 
@@ -110,6 +110,7 @@ Please follow these advices to simplify the pull request workflow:
 
 [coveralls-image]: https://img.shields.io/coveralls/seegno/bookshelf-mask/master.svg?style=flat-square
 [coveralls-url]: https://coveralls.io/github/seegno/bookshelf-mask?branch=master
+[node-image]: https://img.shields.io/node/v/bookshelf-mask.svg?style=flat-square
 [npm-image]: https://img.shields.io/npm/v/bookshelf-mask.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/bookshelf-mask
 [travis-image]: https://img.shields.io/travis/seegno/bookshelf-mask/master.svg?style=flat-square
